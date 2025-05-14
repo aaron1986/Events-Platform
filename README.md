@@ -16,14 +16,14 @@
 
 (7) I created the Project Structure as followed: </br></br> 
 
-src/
+src/</br>
 ├── Components/</br> 
 │   ├── EventCard.jsx</br> 
 │   ├── EventForm.jsx</br> 
 │   └── ProtectedRoute.jsx</br> 
 ├── pages/</br>
 │   ├── Home.jsx</br>
-│   ├── Login.jsx</br
+│   ├── Login.jsx</br>
 │   ├── Dashboard.jsx</br> 
 │   └── CreateEvent.jsx</br> 
 ├── services/</br>
