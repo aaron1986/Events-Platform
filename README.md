@@ -17,20 +17,20 @@
 () I created the Project Structure as followed: </br></br> 
 
 src/
-├── Components/
-│   ├── EventCard.jsx
-│   ├── EventForm.jsx
-│   └── ProtectedRoute.jsx
-├── pages/
-│   ├── Home.jsx
-│   ├── Login.jsx
-│   ├── Dashboard.jsx
-│   └── CreateEvent.jsx
-├── services/
-│   ├── firebase.js
-│   └── calendar.js
-├── App.jsx
-└── main.jsx
+├── Components/</br></br> 
+│   ├── EventCard.jsx</br></br> 
+│   ├── EventForm.jsx</br></br> 
+│   └── ProtectedRoute.jsx</br></br> 
+├── pages/</br></br> 
+│   ├── Home.jsx</br></br> 
+│   ├── Login.jsx</br></br> 
+│   ├── Dashboard.jsx</br></br> 
+│   └── CreateEvent.jsx</br></br> 
+├── services/</br></br> 
+│   ├── firebase.js</br></br> 
+│   └── calendar.js</br></br> 
+├── App.jsx</br></br> 
+└── main.jsx</br></br> 
 
 () On the Google Calendar website >> Create project > Enable Google Calendar API >> OAuth consent screen > Add scope >> https://www.googleapis.com/auth/calendar.events >> Create OAuth Client ID → Web App >> http://localhost:5173 </br></br>
 

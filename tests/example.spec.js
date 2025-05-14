@@ -5,7 +5,7 @@ test.describe("Content Page", () => {
     await page.goto('https://playful-lebkuchen-6de85c.netlify.app/')
   })
 
-test.skip("TITLE PAGE", async({page, request}) => {
+test.skip("Title Page", async({page, request}) => {
       await expect(page).toHaveTitle("Northcoders Event Platform");
 })
 
