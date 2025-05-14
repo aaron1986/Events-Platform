@@ -2,40 +2,40 @@
 
 ![Wireframe Image](./src/assets/wireframes.png)
 
-() npm create vite@latest events-platform -- --template react </br></br>
+(1) npm create vite@latest events-platform -- --template react </br></br>
 
-() npm init playwright </br></br>
+(2) npm init playwright </br></br>
 
-() npm install firebase </br></br>
+(3) npm install firebase </br></br>
 
-() npm install -g firebase-tools </br></br>
+(4) npm install -g firebase-tools </br></br>
 
-() npm firebase deploy </br></br>
+(5) npm firebase deploy </br></br>
 
-() npm install firebase react-router-dom </br></br>
+(6) npm install firebase react-router-dom </br></br>
 
-() I created the Project Structure as followed: </br></br> 
+(7) I created the Project Structure as followed: </br></br> 
 
 src/
-├── Components/</br></br> 
-│   ├── EventCard.jsx</br></br> 
-│   ├── EventForm.jsx</br></br> 
-│   └── ProtectedRoute.jsx</br></br> 
-├── pages/</br></br> 
-│   ├── Home.jsx</br></br> 
-│   ├── Login.jsx</br></br> 
-│   ├── Dashboard.jsx</br></br> 
-│   └── CreateEvent.jsx</br></br> 
-├── services/</br></br> 
-│   ├── firebase.js</br></br> 
-│   └── calendar.js</br></br> 
-├── App.jsx</br></br> 
-└── main.jsx</br></br> 
+├── Components/</br> 
+│   ├── EventCard.jsx</br> 
+│   ├── EventForm.jsx</br> 
+│   └── ProtectedRoute.jsx</br> 
+├── pages/</br>
+│   ├── Home.jsx</br>
+│   ├── Login.jsx</br
+│   ├── Dashboard.jsx</br> 
+│   └── CreateEvent.jsx</br> 
+├── services/</br>
+│   ├── firebase.js</br>
+│   └── calendar.js</br>
+├── App.jsx</br>
+└── main.jsx</br>
 
-() On the Google Calendar website >> Create project > Enable Google Calendar API >> OAuth consent screen > Add scope >> https://www.googleapis.com/auth/calendar.events >> Create OAuth Client ID → Web App >> http://localhost:5173 </br></br>
+(8) On the Google Calendar website >> Create project > Enable Google Calendar API >> OAuth consent screen > Add scope >> https://www.googleapis.com/auth/calendar.events >> Create OAuth Client ID → Web App >> http://localhost:5173 </br></br>
 
-() I added the script tag to the following path public/index.html <script async defer src="https://apis.google.com/js/api.js"></script></br></br>
+(9) I added the script tag to the following path public/index.html <script async defer src="https://apis.google.com/js/api.js"></script></br></br>
 
-() Added the Google Calendar API information to services/calendar.js</br></br>
+(10) Added the Google Calendar API information to services/calendar.js</br></br>
 
 ()  
