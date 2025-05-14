@@ -1,5 +1,7 @@
 <h1>Event Platform.</h1>
 
+![Wireframe Image](./src/assets/wireframes.png)
+
 () npm create vite@latest events-platform -- --template react </br></br>
 
 () npm init playwright </br></br>
