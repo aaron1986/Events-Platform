@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-//import { auth } from '../firebase'; 
-//import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Services/firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-export default function Login() {
+export default function Register() {
   const [formData, setFormData] = useState({ fname: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -26,33 +26,46 @@ export default function Login() {
 
     if (!formData.password) {
       errors.password = 'Password is required.';
+    } else if (formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters.';
     }
 
     return errors;
   };
 
-  const handleLogin = async (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await signInWithEmailAndPassword(auth, formData.email, formData.password);
-        console.log('Login successful');
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+
+        await updateProfile(userCredential.user, {
+          displayName: formData.fname,
+        });
+
+        console.log('Registration successful');
         setIsSubmitted(true);
+        setFormData({ fname: '', email: '', password: '' });
+
         setTimeout(() => setIsSubmitted(false), 3000);
       } catch (error) {
         console.error(error);
-        setErrors({ email: "Invalid login credentials." });
+        setErrors({ email: error.message });
       }
     }
   };
 
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <h2>Log in to your account</h2>
+      <form onSubmit={handleRegister}>
+        <h2>Create a New Account</h2>
 
         <label htmlFor="fname">
           <span>Name <span className="required-star">*</span></span>
@@ -89,12 +102,12 @@ export default function Login() {
           name="password"
           value={formData.password}
           onChange={handleInputChange}
-          placeholder="Enter your password.."
+          placeholder="Create a password.."
         />
         {errors.password && <p className="error-message">{errors.password}</p>}
 
-        <button type="submit" className="loginbtn">Login</button>
-        {isSubmitted && <p className="success-message">Login successful!</p>}
+        <button type="submit" className="registerbtn">Register</button>
+        {isSubmitted && <p className="success-message">Registration successful!</p>}
       </form>
     </div>
   );

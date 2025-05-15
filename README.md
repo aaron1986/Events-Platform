@@ -38,4 +38,4 @@ src/</br>
 
 (10) Added the Google Calendar API information to services/calendar.js</br></br>
 
-()  
+(11) Created a register/login page to use with firebase.   
