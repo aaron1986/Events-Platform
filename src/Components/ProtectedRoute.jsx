@@ -1,7 +1,12 @@
-export default function ProtectedRoute() {
-    return (
-        <div>
-            <h1>Test ProtectedRoute.</h1>
-        </div>
-    )
+// components/PrivateRoute.jsx
+import { Navigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../Services/firebase';
+
+export default function ProtectedRoute({ children }) {
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) return <p>Loading...</p>;
+  if (!user) return <Navigate to="/login" />;
+  return children;
 }
