@@ -41,3 +41,5 @@ src/</br>
 (11) Created a register/login page to use with firebase. I added test to check the validation and database register.</br></br>
 
 (12) I wrote test to check the links</br></br>
+
+<13> npm install gapi-script
