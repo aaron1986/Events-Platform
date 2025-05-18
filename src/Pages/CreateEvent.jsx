@@ -1,100 +1,125 @@
-import React, { useEffect, useState } from "react";
-import { gapi } from "gapi-script";
-
-const CLIENT_ID = "924240908915-b1tobmtfd7kbkc8fvmq3ubnj0jp1lk6c.apps.googleusercontent.com";
-const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+import React, { useState } from "react";
+import { useSession, useSupabaseClient, useSessionContext } from "@supabase/auth-helpers-react";
+import DateTimePicker from "react-datetime-picker";
 
 export default function CreateEvent() {
-  const [formData, setFormData] = useState({ title: "", date: "", location: "" });
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: SCOPES,
-      });
+  const session = useSession();
+  const supabase = useSupabaseClient();
+  const { isLoading } = useSessionContext();
+
+  if (isLoading) return <></>;
+
+  async function googleSignIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        scopes: "https://www.googleapis.com/auth/calendar",
+      },
+    });
+
+    if (error) {
+      alert("Error logging into Google.");
     }
+  }
 
-    gapi.load("client:auth2", start);
-  }, []);
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
 
-  const handleSignIn = async () => {
-    await gapi.auth2.getAuthInstance().signIn();
-    setIsSignedIn(true);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!isSignedIn) {
-      setMessage("Please sign in with Google first.");
+  async function createCalendarEvent() {
+    if (!session?.provider_token) {
+      setMessage("You must be signed in with Google.");
       return;
     }
 
     const event = {
-      summary: formData.title,
-      location: formData.location,
+      summary: eventName,
+      description: eventDescription,
       start: {
-        dateTime: new Date(formData.date).toISOString(),
-        timeZone: "Europe/London",
+        dateTime: start.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       end: {
-        dateTime: new Date(new Date(formData.date).getTime() + 60 * 60 * 1000).toISOString(),
-        timeZone: "Europe/London",
+        dateTime: end.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
     };
 
     try {
-      const request = gapi.client.calendar.events.insert({
-        calendarId: "primary",
-        resource: event,
+      const res = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + session.provider_token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(event),
       });
-      await request.execute();
-      setMessage("Event added to Google Calendar!");
-    } catch (error) {
-      console.error("Error adding to calendar:", error);
-      setMessage("Failed to add event to Google Calendar.");
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Event successfully created!");
+      } else {
+        console.error("Google Calendar API error:", data);
+        setMessage("Failed to create event.");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setMessage("Error creating calendar event.");
     }
-  };
+  }
 
   return (
     <div>
       <h2>Create an Event</h2>
 
-      {!isSignedIn && <button onClick={handleSignIn}>Sign in with Google</button>}
+      {session ? (
+        <>
+          <p>Welcome, {session.user.email}</p>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          placeholder="Event Title"
-          onChange={handleInputChange}
-          required
-        /><br />
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleInputChange}
-          required
-        /><br />
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          placeholder="Location"
-          onChange={handleInputChange}
-          required
-        /><br />
-        <button type="submit">Create and Add to Calendar</button>
-      </form>
+          <p>Start Time</p>
+          <DateTimePicker onChange={setStart} value={start} />
+        <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+          <p>End Time</p>
+          <DateTimePicker onChange={setEnd} value={end} />
+
+          <p>Event Name</p>
+          <input
+            type="text"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+          />
+
+          <p>Event Description</p>
+          <input
+            type="text"
+            value={eventDescription}
+            onChange={(e) => setEventDescription(e.target.value)}
+          />
+
+          <br />
+          <button onClick={createCalendarEvent}>Create Calendar Event</button>
+          <br />
+          <button onClick={signOut}>Sign Out</button>
+        </>
+      ) : (
+        <button onClick={googleSignIn}>Sign In with Google</button>
+      )}
 
       {message && <p>{message}</p>}
     </div>

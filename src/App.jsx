@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -9,12 +9,11 @@ import CreateEvent from "./Pages/CreateEvent";
 import Navbar from './Components/Navbar';
 import ProtectedRoute from "./Components/ProtectedRoute";
 
-
 function App() {
 
   return (
-    <>
-    <BrowserRouter>
+
+      <BrowserRouter>
         <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,8 +23,8 @@ function App() {
         <Route path="/create" element={<CreateEvent />} />
       </Routes>
     </BrowserRouter>
-    </>
-  )
+  
+  );
 }
 
-export default App
+export default App;

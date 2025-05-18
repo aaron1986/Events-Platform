@@ -12,9 +12,13 @@
   },
   "dependencies": {
     "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
+    "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
     "firebase": "^11.7.1",
     "gapi-script": "^1.2.0",
     "react": "^19.1.0",
+    "react-datetime-picker": "^6.0.1",
     "react-dom": "^19.1.0",
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^7.6.0"

@@ -64,9 +64,8 @@ export default function Register() {
 
   return (
     <div>
+      <h1 className='title'>Create a New Account</h1>
       <form onSubmit={handleRegister}>
-        <h2>Create a New Account</h2>
-
         <label htmlFor="fname">
           <span>Name <span className="required-star">*</span></span>
         </label>

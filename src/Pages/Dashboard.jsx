@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h2>Welcome to Your Dashboard</h2>
+      <h1 className='title'>Welcome to Your Dashboard</h1>
       {userEmail && <p>Signed in as: {userEmail}</p>}
 
       <h3>Your Registered Events</h3>
