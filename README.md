@@ -45,3 +45,8 @@ src/</br>
 <13> npm install gapi-script</br></br>
 
 <14> created a createEvent page.
+
+(15)  npm install @fullcalendar/react @fullcalendar/daygrid, npm install @fullcalendar/timegrid @fullcalendar/interaction
+
+(16) import timeGridPlugin from '@fullcalendar/timegrid'; import interactionPlugin from '@fullcalendar/interaction';
+

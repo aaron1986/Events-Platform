@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
 
 export default function Dashboard() {
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -34,7 +39,13 @@ export default function Dashboard() {
 
         const data = await res.json();
         if (res.ok) {
-          setCalendarEvents(data.items || []);
+          const formattedEvents = (data.items || []).map(event => ({
+            id: event.id,
+            title: event.summary || '(No Title)',
+            start: event.start?.dateTime || event.start?.date,
+            end: event.end?.dateTime || event.end?.date,
+          }));
+          setCalendarEvents(formattedEvents);
         } else {
           console.error('Google Calendar error:', data);
         }
@@ -50,21 +61,20 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className='title'>Welcome to Your Dashboard</h1>
+      <div className="title"><h1>Welcome to your Dashboard</h1></div>
       {userEmail && <p>Signed in as: {userEmail}</p>}
 
       <h3>Your Google Calendar Events ({currentYear})</h3>
+
       {calendarEvents.length === 0 ? (
         <p>No Google Calendar events found this year.</p>
       ) : (
-        <ul>
-          {calendarEvents.map(event => (
-            <li key={event.id}>
-              <strong>{event.summary || '(No Title)'}</strong><br />
-              {event.start?.dateTime || event.start?.date} – {event.end?.dateTime || event.end?.date}
-            </li>
-          ))}
-        </ul>
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView="dayGridMonth"
+          events={calendarEvents}
+          height="auto"
+        />
       )}
     </div>
   );

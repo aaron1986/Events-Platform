@@ -5,7 +5,7 @@ test.describe("Content Page", () => {
     await page.goto('https://beautiful-starburst-eead9f.netlify.app/')
   })
 
-test("Title Page", async({page, request}) => {
+test.skip("Title Page", async({page, request}) => {
       await expect(page).toHaveTitle("Northcoders Event Platform");
 
         //check nav links

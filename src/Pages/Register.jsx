@@ -5,108 +5,108 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 export default function Register() {
   const [formData, setFormData] = useState({ fname: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const validate = () => {
-    const errors = {};
+    const newErrors = {};
+
     if (!formData.fname.trim()) {
-      errors.fname = 'Name is required.';
+      newErrors.fname = 'Name is required.';
     }
 
     if (!formData.email.trim()) {
-      errors.email = 'Email is required.';
+      newErrors.email = 'Email is required.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Invalid email address.';
+      newErrors.email = 'Invalid email format.';
     }
 
     if (!formData.password) {
-      errors.password = 'Password is required.';
+      newErrors.password = 'Password is required.';
     } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters.';
+      newErrors.password = 'Password must be at least 6 characters.';
     }
 
-    return errors;
+    return newErrors;
   };
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors({});
+    setSuccessMessage('');
+
     const validationErrors = validate();
-    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-    if (Object.keys(validationErrors).length === 0) {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
 
-        await updateProfile(userCredential.user, {
-          displayName: formData.fname,
-        });
+      await updateProfile(userCredential.user, {
+        displayName: formData.fname,
+      });
 
-        console.log('Registration successful');
-        setIsSubmitted(true);
-        setFormData({ fname: '', email: '', password: '' });
-
-        setTimeout(() => setIsSubmitted(false), 3000);
-      } catch (error) {
-        console.error(error);
-        setErrors({ email: error.message });
-      }
+      setFormData({ fname: '', email: '', password: '' });
+      setSuccessMessage('Registration successful!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error) {
+      console.error('Firebase registration error:', error);
+      setErrors({ general: error.message });
     }
   };
 
   return (
-    <div>
-      <h1 className='title'>Create a New Account</h1>
-      <form onSubmit={handleRegister}>
-        <label htmlFor="fname">
-          <span>Name <span className="required-star">*</span></span>
-        </label>
+    <div className="register-container">
+      <h1 className="title">Create a New Account</h1>
+
+      <form onSubmit={handleSubmit} className="register-form">
+        <label htmlFor="fname">Name <span className="required-star">*</span></label>
         <input
           type="text"
           id="fname"
           name="fname"
           value={formData.fname}
-          onChange={handleInputChange}
-          placeholder="Enter your name.."
+          onChange={handleChange}
+          placeholder="Enter your name"
         />
         {errors.fname && <p className="error-message">{errors.fname}</p>}
 
-        <label htmlFor="email">
-          <span>Email <span className="required-star">*</span></span>
-        </label>
+        <label htmlFor="email">Email <span className="required-star">*</span></label>
         <input
-          type="text"
+          type="email"
           id="email"
           name="email"
           value={formData.email}
-          onChange={handleInputChange}
-          placeholder="Enter your email.."
+          onChange={handleChange}
+          placeholder="Enter your email"
         />
         {errors.email && <p className="error-message">{errors.email}</p>}
 
-        <label htmlFor="password">
-          <span>Password <span className="required-star">*</span></span>
-        </label>
+        <label htmlFor="password">Password <span className="required-star">*</span></label>
         <input
           type="password"
           id="password"
           name="password"
           value={formData.password}
-          onChange={handleInputChange}
-          placeholder="Create a password.."
+          onChange={handleChange}
+          placeholder="Create a password"
         />
         {errors.password && <p className="error-message">{errors.password}</p>}
 
+        {errors.general && <p className="error-message">{errors.general}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+
         <button type="submit" className="registerbtn">Register</button>
-        {isSubmitted && <p className="success-message">Registration successful!</p>}
       </form>
     </div>
   );

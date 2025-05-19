@@ -20,7 +20,8 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="Login" element={<Login />} />
         <Route path="/staff" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/create" element={<CreateEvent />} />
+        <Route path="/create" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
+
       </Routes>
     </BrowserRouter>
   

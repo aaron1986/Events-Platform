@@ -80,7 +80,7 @@ export default function CreateEvent() {
 
   return (
     <div>
-      <h1 className='title'>Create an Event</h1>
+      <div className="title"><h1>Create an Event</h1></div>
 
       {session ? (
         <>

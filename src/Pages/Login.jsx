@@ -4,7 +4,11 @@ import { auth } from '../Services/firebase';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,6 +21,11 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       navigate('/staff');
@@ -28,7 +37,7 @@ export default function Login() {
 
   return (
     <div>
-      <h1 className='title'>Login to Your Account</h1>
+      <div className="title"><h1>Login to Your Account</h1></div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input
@@ -49,6 +58,17 @@ export default function Login() {
           value={formData.password}
           onChange={handleChange}
           placeholder="Enter your password"
+          required
+        />
+
+        <label htmlFor="confirmPassword">Retype Password:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          placeholder="Retype your password"
           required
         />
 
