@@ -41,7 +41,7 @@ li, a {
 }
 
 .title {
-  margin-top: 65%;
+  margin-top: 30%;
   font-size: 15px;
 }
 
@@ -133,25 +133,3 @@ textarea {
   height: 100%; 
 } */
 
-.datepicker {
-  width: 225px;
-  display:flex;
-}
-.datepicker .datepicker-head {
-  width: 100%;
-}
-.datepicker .btn-group {
-  width: 100%;
-}
-.datepicker .datepicker-body {
-  width: 100%;
-}
-
-.table.datepicker-table {
-  margin-bottom: 0px;
-}
-
-.table.datepicker-table th,
-.table.datepicker-table td {
-  text-align: center;
-}

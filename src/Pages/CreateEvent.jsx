@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useSession, useSupabaseClient, useSessionContext } from "@supabase/auth-helpers-react";
 import DateTimePicker from "react-datetime-picker";
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 export default function CreateEvent() {
   const [start, setStart] = useState(new Date());
@@ -77,26 +80,17 @@ export default function CreateEvent() {
 
   return (
     <div>
-      <h2>Create an Event</h2>
+      <h1 className='title'>Create an Event</h1>
 
       {session ? (
         <>
           <p>Welcome, {session.user.email}</p>
 
           <p>Start Time</p>
-          <DateTimePicker onChange={setStart} value={start} />
-        <br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+          <DateTimePicker onChange={setStart} value={start} id="dateStart"/>
+
           <p>End Time</p>
-          <DateTimePicker onChange={setEnd} value={end} />
+          <DateTimePicker onChange={setEnd} value={end} id="dateEnd"/>
 
           <p>Event Name</p>
           <input
